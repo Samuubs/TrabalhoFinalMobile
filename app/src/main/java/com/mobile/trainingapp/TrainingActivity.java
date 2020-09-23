@@ -9,13 +9,23 @@ import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.ListView;
+import android.widget.TextView;
 import android.widget.Toast;
+
+import com.mobile.trainingapp.adapter.AdapterExercice;
+import com.mobile.trainingapp.model.Exercice;
+import com.mobile.trainingapp.model.Workout;
+
+import java.io.Serializable;
+import java.util.ArrayList;
+import java.util.List;
 
 public class TrainingActivity extends AppCompatActivity {
 
+    private TextView textViewName;
     private ListView listView;
-    private String[] itens = {"Item 1", "Item 2", "Item 3", "Item 1"};
     private Button startButton;
+    private Button shareButton;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -23,12 +33,7 @@ public class TrainingActivity extends AppCompatActivity {
         setContentView(R.layout.activity_training);
 
         listView = (ListView) findViewById(R.id.idListViewWorkoutExercises);
-        ArrayAdapter<String> adapter = new ArrayAdapter<String>(
-                getApplicationContext(),
-                android.R.layout.simple_list_item_1,
-                android.R.id.text1,
-                itens
-        );
+        AdapterExercice adapter = new AdapterExercice(TrainingActivity.this, Mock.getInstance().mockExecice());
         listView.setAdapter(adapter);
         listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
@@ -46,5 +51,21 @@ public class TrainingActivity extends AppCompatActivity {
                 startActivity(intent);
             }
         });
+
+        textViewName = findViewById(R.id.textViewNameW);
+        final Workout workout = (Workout) getIntent().getExtras().get("workout");
+        if (workout != null) textViewName.setText(workout.getTname());
+
+        shareButton = findViewById(R.id.buttonShare);
+        shareButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(TrainingActivity.this, ShareActivity.class);
+                intent.putExtra("workout", (Serializable) workout);
+                startActivity(intent);
+            }
+        });
     }
+
+
 }

@@ -12,9 +12,10 @@
         android:id="@+id/idButtonRun"
         android:layout_width="wrap_content"
         android:layout_height="150dp"
+        android:background="@color/cardview_light_background"
         android:cropToPadding="true"
-        android:scaleType="centerCrop"
-        android:src="@drawable/logo" />
+        android:scaleType="fitXY"
+        android:src="@drawable/run" />
 
     <ImageView
         android:id="@+id/imageView2"
@@ -22,8 +23,8 @@
         android:layout_height="150dp"
         android:layout_marginTop="30dp"
         android:layout_marginBottom="5dp"
-        android:contentDescription="Teste"
-        android:src="@drawable/logo" />
+        android:background="@drawable/skills"
+        android:contentDescription="Teste" />
 
     <LinearLayout
         android:layout_width="match_parent"

@@ -18,8 +18,8 @@
             android:orientation="vertical" >
 
             <ListView
-                android:id="@+id/idListViewAmigos"
-                android:layout_width="wrap_content"
+                android:id="@+id/idListViewFriends"
+                android:layout_width="match_parent"
                 android:layout_height="500dp">
 
             </ListView>
@@ -28,7 +28,10 @@
                 android:id="@+id/idButtonNovoAmigo"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="Novo Amigo " />
+                android:layout_margin="5dp"
+                android:background="@drawable/bg_button_dark_rounded"
+                android:text="Novo Amigo "
+                android:textColor="@color/buttonLight" />
         </LinearLayout>
     </ScrollView>
 

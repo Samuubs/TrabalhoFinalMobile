@@ -22,14 +22,19 @@ import androidx.navigation.fragment.FragmentNavigator;
 import androidx.navigation.fragment.NavHostFragment;
 
 import com.mobile.trainingapp.MainActivity;
+import com.mobile.trainingapp.Mock;
 import com.mobile.trainingapp.NewFriendActivity;
 import com.mobile.trainingapp.R;
+import com.mobile.trainingapp.adapter.AdapterUser;
+import com.mobile.trainingapp.model.User;
 import com.mobile.trainingapp.ui.Inbox.InboxFragment;
+
+import java.util.ArrayList;
+import java.util.List;
 
 public class FriendsFragment extends Fragment {
 
     private FriendsViewModel friendsViewModel;
-    private String[] itens = {"Item 1", "Item 2", "Item 3", "Item 4", "a", "b", "c", "d", "e", "Item 2", "Item 3", "Item 2", "Item 3"};
     private ListView listView;
     private Button newFriendButton;
 
@@ -39,13 +44,8 @@ public class FriendsFragment extends Fragment {
                 ViewModelProviders.of(this).get(FriendsViewModel.class);
         final View root = inflater.inflate(R.layout.fragment_friends, container, false);
 
-        listView = (ListView) root.findViewById(R.id.idListViewAmigos);
-        ArrayAdapter<String> adapter = new ArrayAdapter<String>(
-                root.getContext(),
-                android.R.layout.simple_list_item_1,
-                android.R.id.text1,
-                itens
-        );
+        listView = (ListView) root.findViewById(R.id.idListViewFriends);
+        AdapterUser adapter = new AdapterUser(root.getContext(), Mock.getInstance().mockUsers());
         listView.setAdapter(adapter);
 
         newFriendButton = (Button) root.findViewById(R.id.idButtonNovoAmigo);
