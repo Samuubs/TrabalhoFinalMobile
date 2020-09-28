@@ -49,13 +49,6 @@ public class FriendsFragment extends Fragment {
         listView = (ListView) root.findViewById(R.id.idListViewFriends);
         AdapterUser adapter = new AdapterUser(root.getContext(), Mock.getInstance().mockUsers());
         listView.setAdapter(adapter);
-        listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-            @Override
-            public void onItemClick(AdapterView<?> adapterView, View view, int position, long l) {
-                Intent intent = new Intent(root.getContext(), ChronometerActivity.class);
-                startActivity(intent);
-            }
-        });
 
         newFriendButton = (Button) root.findViewById(R.id.idButtonNovoAmigo);
         newFriendButton.setOnClickListener(new View.OnClickListener() {
