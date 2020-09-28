@@ -21,10 +21,12 @@ import androidx.navigation.Navigation;
 import androidx.navigation.fragment.FragmentNavigator;
 import androidx.navigation.fragment.NavHostFragment;
 
+import com.mobile.trainingapp.ChronometerActivity;
 import com.mobile.trainingapp.MainActivity;
 import com.mobile.trainingapp.Mock;
 import com.mobile.trainingapp.NewFriendActivity;
 import com.mobile.trainingapp.R;
+import com.mobile.trainingapp.TrainingActivity;
 import com.mobile.trainingapp.adapter.AdapterUser;
 import com.mobile.trainingapp.model.User;
 import com.mobile.trainingapp.ui.Inbox.InboxFragment;
@@ -47,6 +49,13 @@ public class FriendsFragment extends Fragment {
         listView = (ListView) root.findViewById(R.id.idListViewFriends);
         AdapterUser adapter = new AdapterUser(root.getContext(), Mock.getInstance().mockUsers());
         listView.setAdapter(adapter);
+        listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> adapterView, View view, int position, long l) {
+                Intent intent = new Intent(root.getContext(), ChronometerActivity.class);
+                startActivity(intent);
+            }
+        });
 
         newFriendButton = (Button) root.findViewById(R.id.idButtonNovoAmigo);
         newFriendButton.setOnClickListener(new View.OnClickListener() {
@@ -54,25 +63,6 @@ public class FriendsFragment extends Fragment {
             public void onClick(View view) {
                 Intent intent = new Intent(root.getContext(), NewFriendActivity.class);
                 startActivity(intent);
-            }
-        });
-
-        listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-            @Override
-            public void onItemClick(AdapterView<?> adapterView, View view, int position, long l) {
-                FragmentManager fragmentManager = getFragmentManager();
-                FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
-                InboxFragment fragment = new InboxFragment();
-
-                // Passando valor para o proximo fragment
-                Bundle arguments = new Bundle();
-                arguments.putString( "chave" , "valor");
-                fragment.setArguments(arguments);
-
-                fragmentTransaction.addToBackStack("xyz");
-                fragmentTransaction.hide(FriendsFragment.this);
-                fragmentTransaction.add(R.id.nav_host_fragment, fragment);
-                fragmentTransaction.commit();
             }
         });
 

@@ -29,10 +29,12 @@
 
         <activity
             android:name=".RunningActivity"
-            android:label="@string/title_activity_running" />
+            android:label="@string/title_activity_running"
+            android:parentActivityName=".MainActivity"/>
         <activity android:name=".ShareActivity"/>
         <activity android:name=".NewFriendActivity" />
-        <activity android:name=".RegisterActivity" />
+        <activity android:name=".RegisterActivity"
+            android:parentActivityName=".LoginActivity"/>
         <activity android:name=".ChronometerActivity" />
         <activity android:name=".TrainingActivity" />
         <activity

@@ -31,6 +31,7 @@
             android:inputType="textPersonName" />
 
         <Button
+            android:id="@+id/adicionarFriend"
             android:layout_width="121dp"
             android:layout_height="wrap_content"
             android:layout_gravity="center"
