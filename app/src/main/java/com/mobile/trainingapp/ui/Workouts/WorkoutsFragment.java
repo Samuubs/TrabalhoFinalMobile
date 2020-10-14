@@ -17,11 +17,19 @@ import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProviders;
 
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
 import com.mobile.trainingapp.Mock;
 import com.mobile.trainingapp.R;
 import com.mobile.trainingapp.RunningActivity;
 import com.mobile.trainingapp.TrainingActivity;
 import com.mobile.trainingapp.adapter.AdapterWorkout;
+import com.mobile.trainingapp.model.User;
 import com.mobile.trainingapp.model.Workout;
 
 import java.io.Serializable;
@@ -35,8 +43,16 @@ public class WorkoutsFragment extends Fragment {
     private ListView listView;
     private ImageButton buttonRun;
 
+    private FirebaseAuth mAuth;
+    FirebaseUser currentUser;
+    FirebaseDatabase database = FirebaseDatabase.getInstance();
+    DatabaseReference myRef = database.getReference("users");
+
     public View onCreateView(@NonNull LayoutInflater inflater,
                              ViewGroup container, Bundle savedInstanceState) {
+
+        mAuth = FirebaseAuth.getInstance();
+
         workoutsViewModel =
                 ViewModelProviders.of(this).get(WorkoutsViewModel.class);
         final View root = inflater.inflate(R.layout.fragment_workouts, container, false);
@@ -66,4 +82,21 @@ public class WorkoutsFragment extends Fragment {
         return root;
     }
 
+    @Override
+    public void onStart() {
+        super.onStart();
+        currentUser = mAuth.getCurrentUser();
+        myRef.addValueEventListener(postListener);
+    }
+
+    ValueEventListener postListener = new ValueEventListener() {
+        @Override
+        public void onDataChange(DataSnapshot dataSnapshot) {
+            User user;
+//            user = dataSnapshot.child(currentUser.getUid()).getValue(User.class);
+        }
+        @Override
+        public void onCancelled(DatabaseError databaseError) {
+        }
+    };
 }

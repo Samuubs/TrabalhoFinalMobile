@@ -18,6 +18,7 @@
         android:background="@drawable/logo" />
 
     <EditText
+        android:id="@+id/idEditTextLoginEmail"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginStart="30dp"
@@ -35,6 +36,7 @@
         android:textColorLink="#000000" />
 
     <EditText
+        android:id="@+id/idEditTextPasswordLogin"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginStart="30dp"
