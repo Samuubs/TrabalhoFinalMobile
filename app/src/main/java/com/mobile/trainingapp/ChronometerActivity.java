@@ -19,17 +19,8 @@ public class ChronometerActivity extends AppCompatActivity {
         setContentView(R.layout.activity_chronometer);
 
         chronometer = findViewById(R.id.chronometer);
-        chronometer.setFormat("Time: %s");
+        chronometer.setFormat("%s");
         chronometer.setBase(SystemClock.elapsedRealtime());
-        chronometer.setOnChronometerTickListener(new Chronometer.OnChronometerTickListener() {
-            @Override
-            public void onChronometerTick(Chronometer chronometer) {
-                if ((SystemClock.elapsedRealtime() - chronometer.getBase()) >= 10000) {
-                    chronometer.setBase(SystemClock.elapsedRealtime());
-                    Toast.makeText(ChronometerActivity.this, "Bing!", Toast.LENGTH_SHORT).show();
-                }
-            }
-        });
     }
 
     public void startChronometer(View v) {

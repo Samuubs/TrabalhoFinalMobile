@@ -4,6 +4,7 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
@@ -18,6 +19,7 @@ import com.mobile.trainingapp.model.Workout;
 
 import java.io.Serializable;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 
 public class TrainingActivity extends AppCompatActivity {
@@ -32,8 +34,16 @@ public class TrainingActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_training);
 
+        Intent intent = getIntent();
+        HashMap<String, Exercice> hashMap = (HashMap<String, Exercice>)intent.getSerializableExtra("exercices");
+        List<Exercice> itens = (List<Exercice>) hashMap.get("exercicios");
+        // fazer um for pra adicionar os exercicios um por um.
+        List<Exercice> exercices = new ArrayList<>();
+        System.out.println("esse tal do object" + itens.get(0));
+
+
         listView = (ListView) findViewById(R.id.idListViewWorkoutExercises);
-        AdapterExercice adapter = new AdapterExercice(TrainingActivity.this, Mock.getInstance().mockExecice());
+        AdapterExercice adapter = new AdapterExercice(TrainingActivity.this, itens);
         listView.setAdapter(adapter);
         listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
@@ -54,7 +64,7 @@ public class TrainingActivity extends AppCompatActivity {
 
         textViewName = findViewById(R.id.textViewNameW);
         final Workout workout = (Workout) getIntent().getExtras().get("workout");
-        if (workout != null) textViewName.setText(workout.getTname());
+        if (workout != null) textViewName.setText(workout.getTid());
 
         shareButton = findViewById(R.id.buttonShare);
         shareButton.setOnClickListener(new View.OnClickListener() {
