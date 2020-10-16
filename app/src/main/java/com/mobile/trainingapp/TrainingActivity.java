@@ -43,7 +43,7 @@ public class TrainingActivity extends AppCompatActivity {
 
 
         listView = (ListView) findViewById(R.id.idListViewWorkoutExercises);
-        AdapterExercice adapter = new AdapterExercice(TrainingActivity.this, itens);
+        AdapterExercice adapter = new AdapterExercice(TrainingActivity.this, Mock.getInstance().mockExecice());
         listView.setAdapter(adapter);
         listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
