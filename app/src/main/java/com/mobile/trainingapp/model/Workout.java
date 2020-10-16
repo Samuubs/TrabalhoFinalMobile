@@ -2,17 +2,20 @@ package com.mobile.trainingapp.model;
 
 import java.io.Serializable;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 
 public class Workout implements Serializable {
 
     private String tid;
-    private String tname;
-    private List<Exercice> exercices;
+    private HashMap<String, Exercice> exercices;
 
-    public Workout(String tname) {
-        this.tname = tname;
-        this.exercices = new ArrayList<>();
+    public Workout(String tid, HashMap<String, Exercice> exercices) {
+        this.tid = tid;
+        this.exercices = exercices;
+    }
+
+    public Workout() {
     }
 
     public String getTid() {
@@ -23,19 +26,19 @@ public class Workout implements Serializable {
         this.tid = tid;
     }
 
-    public String getTname() {
-        return tname;
-    }
-
-    public void setTname(String tname) {
-        this.tname = tname;
-    }
-
-    public List<Exercice> getExercices() {
+    public HashMap<String, Exercice> getExercices() {
         return exercices;
     }
 
-    public void setExercices(List<Exercice> exercices) {
+    public void setExercices(HashMap<String, Exercice> exercices) {
         this.exercices = exercices;
+    }
+
+    @Override
+    public String toString() {
+        return "Workout{" +
+                "tid='" + tid + '\'' +
+                ", exercices=" + exercices +
+                '}';
     }
 }

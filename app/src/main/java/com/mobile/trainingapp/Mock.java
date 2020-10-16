@@ -55,12 +55,12 @@ public class Mock {
     public List<Workout> mockWorkouts(){
         List<Workout> itens = new ArrayList<>();
 
-        itens.add(new Workout("Pernas"));
-        itens.add(new Workout("Glúteos"));
-        itens.add(new Workout("Braço"));
-        itens.add(new Workout("Abdomen"));
-        itens.add(new Workout("Agachamento"));
-        itens.add(new Workout("Prancha"));
+//        itens.add(new Workout("Pernas"));
+//        itens.add(new Workout("Glúteos"));
+//        itens.add(new Workout("Braço"));
+//        itens.add(new Workout("Abdomen"));
+//        itens.add(new Workout("Agachamento"));
+//        itens.add(new Workout("Prancha"));
 
         return itens;
     }

@@ -47,7 +47,7 @@ public class AdapterMessage extends ArrayAdapter<Message> {
 
         assert message != null;
         viewHolder.user.setText(message.getUser().getUname());
-        viewHolder.workout.setText(message.getUser().getUname() + " convidou você para realizar o treino " +message.getWorkout().getTname());
+        viewHolder.workout.setText(message.getUser().getUname() + " convidou você para realizar o treino " +message.getWorkout().getTid());
 
         return convertView;
     }

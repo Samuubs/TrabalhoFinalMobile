@@ -26,41 +26,30 @@ public class ChronometerActivity extends AppCompatActivity implements GestureDet
         setContentView(R.layout.activity_chronometer);
 
         chronometer = findViewById(R.id.chronometer);
-        chronometer.setFormat("Time: %s");
+        chronometer.setFormat("%s");
         chronometer.setBase(SystemClock.elapsedRealtime());
-        chronometer.setOnChronometerTickListener(new Chronometer.OnChronometerTickListener() {
-            @Override
-            public void onChronometerTick(Chronometer chronometer) {
-                if ((SystemClock.elapsedRealtime() - chronometer.getBase()) >= 10000) {
-                    chronometer.setBase(SystemClock.elapsedRealtime());
-                    Toast.makeText(ChronometerActivity.this, "Bing!", Toast.LENGTH_SHORT).show();
-                }
-            }
-        });
-
         detectorCompat = new GestureDetectorCompat(this, this);
     }
-/*
-    public void startChronometer(View v) {
-        if (!running) {
-            chronometer.setBase(SystemClock.elapsedRealtime() - pauseOffset);
-            chronometer.start();
-            running = true;
+    /*
+        public void startChronometer(View v) {
+            if (!running) {
+                chronometer.setBase(SystemClock.elapsedRealtime() - pauseOffset);
+                chronometer.start();
+                running = true;
+            }
         }
-    }
-
-    public void pauseChronometer(View v) {
-        if (running) {
-            chronometer.stop();
-            pauseOffset = SystemClock.elapsedRealtime() - chronometer.getBase();
-            running = false;
+        public void pauseChronometer(View v) {
+            if (running) {
+                chronometer.stop();
+                pauseOffset = SystemClock.elapsedRealtime() - chronometer.getBase();
+                running = false;
+            }
         }
-    }
-    public void resetChronometer(View v) {
-        chronometer.setBase(SystemClock.elapsedRealtime());
-        pauseOffset = 0;
-    }
-*/
+        public void resetChronometer(View v) {
+            chronometer.setBase(SystemClock.elapsedRealtime());
+            pauseOffset = 0;
+        }
+    */
     @Override
     public boolean onTouchEvent(MotionEvent event) {
         if (this.detectorCompat.onTouchEvent(event))
