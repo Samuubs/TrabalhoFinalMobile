@@ -39,7 +39,7 @@ public class AdapterWorkout extends  RecyclerView.Adapter<AdapterWorkout.ViewHol
     public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
         final Workout workout = mWorkouts.get(position);
         holder.username.setText(workout.getTid());
-
+        /*
         holder.itemView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -48,12 +48,16 @@ public class AdapterWorkout extends  RecyclerView.Adapter<AdapterWorkout.ViewHol
                 mContext.startActivity(intent);
             }
         });
+         */
     }
+
 
     @Override
     public int getItemCount() {
         return mWorkouts.size();
     }
+
+    public List<Workout> getmWorkouts() { return mWorkouts; }
 
     public class ViewHolder extends RecyclerView.ViewHolder{
         public TextView username;

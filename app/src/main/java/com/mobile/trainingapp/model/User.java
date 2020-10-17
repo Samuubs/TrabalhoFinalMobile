@@ -9,6 +9,9 @@ public class User implements Serializable {
     private String uemail;
     private String upassword;
 
+    public User() {
+    }
+
     public User(String uname, String uemail, String upassword) {
         this.uname = uname;
         this.uemail = uemail;
@@ -50,4 +53,6 @@ public class User implements Serializable {
     public void setUpassword(String upassword) {
         this.upassword = upassword;
     }
+
+
 }

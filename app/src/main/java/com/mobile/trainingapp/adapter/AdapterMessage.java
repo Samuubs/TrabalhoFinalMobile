@@ -1,6 +1,7 @@
 package com.mobile.trainingapp.adapter;
 
 import android.content.Context;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -10,8 +11,16 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.database.ChildEventListener;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
 import com.mobile.trainingapp.R;
 import com.mobile.trainingapp.model.Message;
+import com.mobile.trainingapp.model.Workout;
 
 import java.util.List;
 
@@ -46,10 +55,9 @@ public class AdapterMessage extends ArrayAdapter<Message> {
         }
 
         assert message != null;
-        viewHolder.user.setText(message.getUser().getUname());
-        viewHolder.workout.setText(message.getUser().getUname() + " convidou você para realizar o treino " +message.getWorkout().getTid());
+        viewHolder.user.setText(message.getNomeEnviou());
+        viewHolder.workout.setText(message.getNomeEnviou() + " convidou você para realizar o treino " + message.getWorkout());
 
         return convertView;
     }
-
 }

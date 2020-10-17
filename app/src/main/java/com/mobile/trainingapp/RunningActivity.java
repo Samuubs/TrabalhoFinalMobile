@@ -92,6 +92,7 @@ public class RunningActivity extends FragmentActivity implements OnMapReadyCallb
                     }
                 } catch (IOException e) {
                     e.printStackTrace();
+
                 }
 
 

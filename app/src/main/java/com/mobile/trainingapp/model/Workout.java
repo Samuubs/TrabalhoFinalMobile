@@ -36,9 +36,6 @@ public class Workout implements Serializable {
 
     @Override
     public String toString() {
-        return "Workout{" +
-                "tid='" + tid + '\'' +
-                ", exercices=" + exercices +
-                '}';
+        return "" + exercices.values();
     }
 }

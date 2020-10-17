@@ -2,6 +2,7 @@ package com.mobile.trainingapp.ui.Workouts;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -14,6 +15,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProviders;
 import androidx.recyclerview.widget.LinearLayoutManager;
@@ -34,11 +36,13 @@ import com.mobile.trainingapp.adapter.AdapterWorkout;
 import com.mobile.trainingapp.model.Exercice;
 import com.mobile.trainingapp.model.User;
 import com.mobile.trainingapp.model.Workout;
+import com.mobile.trainingapp.utils.RecyclerItemClickListener;
 
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Objects;
 
 public class WorkoutsFragment extends Fragment {
 
@@ -67,45 +71,57 @@ public class WorkoutsFragment extends Fragment {
         });
 
         recyclerView= root.findViewById(R.id.idListViewStrength);
+        return root;
+    }
+
+    @Override
+    public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         recyclerView.setHasFixedSize(true);
         recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
 
         mWorkouts = new ArrayList<>();
         readWorkouts();
 
-        return root;
+        recyclerView.addOnItemTouchListener(
+                new RecyclerItemClickListener(
+                        getContext(),
+                        recyclerView,
+                        new RecyclerItemClickListener.OnItemClickListener() {
+                            @Override
+                            public void onItemClick(View view, int position) {
+                                Intent intent = new Intent(getContext(), TrainingActivity.class);
+                                intent.putExtra("workout", adapterWorkout.getmWorkouts().get(position));
+                                startActivity(intent);
+                            }
 
-//        listView = (ListView) root.findViewById(R.id.idListViewStrength);
-//        AdapterWorkout adapter = new AdapterWorkout(root.getContext(), Mock.getInstance().mockWorkouts());
-//        listView.setAdapter(adapter);
-//        listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-//            @Override
-//            public void onItemClick(AdapterView<?> adapterView, View view, int position, long l) {
-//                Intent intent = new Intent(root.getContext(), TrainingActivity.class);
-//                intent.putExtra("workout", Mock.getInstance().mockWorkouts().get(position));
-//                startActivity(intent);
-//            }
-//        });
+                            @Override
+                            public void onLongItemClick(View view, int position) {
+
+                            }
+
+                            @Override
+                            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+
+                            }
+                        })
+        );
     }
 
     private void readWorkouts() {
-
-        final FirebaseUser firebaseUser = FirebaseAuth.getInstance().getCurrentUser();
         DatabaseReference reference = FirebaseDatabase.getInstance().getReference("treinos");
-
         reference.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                System.out.println("dataSnapshot "+dataSnapshot.toString());
                 mWorkouts.clear();
+
                 for (DataSnapshot snapshot: dataSnapshot.getChildren()){
-                    System.out.println("snapshot" + snapshot.toString());
-                    Workout workout = new Workout();
-                    workout.setTid(snapshot.getKey());
-                    workout.setExercices((HashMap<String, Exercice>) snapshot.getValue());
-                    assert  workout != null;
-                    assert firebaseUser != null;
+                    Log.d("snapshot", snapshot.toString());
+                    Workout workout = snapshot.getValue(Workout.class);
                     mWorkouts.add(workout);
                 }
+
+
 
                 adapterWorkout = new AdapterWorkout(getContext(), mWorkouts);
                 recyclerView.setAdapter(adapterWorkout);
@@ -114,6 +130,7 @@ public class WorkoutsFragment extends Fragment {
 
             @Override
             public void onCancelled(@NonNull DatabaseError databaseError) {
+                System.out.println("databaseError "+databaseError.getMessage());
 
             }
         });

@@ -17,12 +17,19 @@ import java.util.List;
 
 public class AdapterUser extends ArrayAdapter<User> {
 
+    private List<User> users;
+
     public static class ViewHolder{
         private TextView name;
     }
 
     public AdapterUser(@NonNull Context context, @NonNull List<User> objects) {
         super(context, android.R.layout.simple_list_item_1,objects);
+        this.users = objects;
+    }
+
+    public List<User> getUsers() {
+        return users;
     }
 
     @NonNull

@@ -13,6 +13,9 @@ public class Exercice implements Serializable {
         this.erepetition = erepetition;
     }
 
+    public Exercice() {
+    }
+
     public String getEid() {
         return eid;
     }
@@ -35,5 +38,13 @@ public class Exercice implements Serializable {
 
     public void setErepetition(Integer erepetition) {
         this.erepetition = erepetition;
+    }
+
+    @Override
+    public String toString() {
+        return "Exercice{" +
+                "ename='" + ename + '\'' +
+                ", erepetition=" + erepetition +
+                '}';
     }
 }
