@@ -2,8 +2,6 @@ package com.mobile.trainingapp;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.fragment.app.FragmentManager;
-import androidx.fragment.app.FragmentTransaction;
 
 import android.content.Intent;
 import android.os.Bundle;
@@ -13,23 +11,17 @@ import android.widget.AdapterView;
 import android.widget.ListView;
 
 import com.google.firebase.auth.FirebaseAuth;
-import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 import com.mobile.trainingapp.adapter.AdapterUser;
-import com.mobile.trainingapp.adapter.AdapterWorkout;
-import com.mobile.trainingapp.model.Exercice;
 import com.mobile.trainingapp.model.Message;
 import com.mobile.trainingapp.model.User;
 import com.mobile.trainingapp.model.Workout;
-import com.mobile.trainingapp.ui.Friends.FriendsFragment;
-import com.mobile.trainingapp.ui.Inbox.InboxFragment;
 
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
 
 
@@ -38,14 +30,14 @@ public class ShareActivity extends AppCompatActivity {
 
     private ListView listView;
 
-    private List<User> users;
-    private AdapterUser adapterUser;
+    private List<User> friends;
+    private AdapterUser adapterFriend;
 
     FirebaseAuth auth = FirebaseAuth.getInstance();
     FirebaseDatabase database = FirebaseDatabase.getInstance();
     DatabaseReference myRefInbox = database.getReference("inbox");
 
-    private String nomeEnviou;
+    private User userLogado;
 
 
     @Override
@@ -53,7 +45,7 @@ public class ShareActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_share);
 
-        users = new ArrayList<>();
+        friends = new ArrayList<>();
 
         final Workout workout = (Workout) getIntent().getExtras().get("workout");
 
@@ -62,9 +54,9 @@ public class ShareActivity extends AppCompatActivity {
             @Override
             public void onItemClick(AdapterView<?> adapterView, View view, int position, long l) {
                 if (workout != null && auth != null) {
-                    String uidRecebeu = adapterUser.getUsers().get(position).getUid();
+                    String uidRecebeu = adapterFriend.getUsers().get(position).getUid();
                     if( uidRecebeu != null ) Log.d("uidRecebeu",uidRecebeu);
-                    Message message = new Message(auth.getUid(), nomeEnviou, uidRecebeu, workout.getTid());
+                    Message message = new Message(auth.getUid(), userLogado.getUname(), uidRecebeu, workout.getTid());
 
                     shareWorkout(message);
                 }
@@ -74,7 +66,8 @@ public class ShareActivity extends AppCompatActivity {
         });
 
         try {
-            readUsers();
+            readUser();
+            readFriends();
         } catch (Exception e){
             Log.i("UERR", e.getMessage());
         }
@@ -84,31 +77,43 @@ public class ShareActivity extends AppCompatActivity {
         myRefInbox.push().setValue(message);
     }
 
-    private void readUsers() {
+    private void readFriends() {
+        DatabaseReference reference = FirebaseDatabase.getInstance().getReference("friends").child(auth.getUid());
+        reference.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                System.out.println("dataSnapshot "+dataSnapshot.toString());
+                friends.clear();
+                for (DataSnapshot snapshot: dataSnapshot.getChildren()) {
+                    User user = snapshot.getValue(User.class);
+                    user.setUid(snapshot.getKey());
+                    Log.d("snapshot", user.toString());
+                    friends.add(user);
+                }
+                adapterFriend = new AdapterUser(getApplicationContext(), friends);
+                listView.setAdapter(adapterFriend);
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError databaseError) {
+                System.out.println("databaseError "+databaseError.getMessage());
+            }
+        });
+    }
+
+    private void readUser(){
         DatabaseReference reference = FirebaseDatabase.getInstance().getReference("users");
         reference.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                 System.out.println("dataSnapshot "+dataSnapshot.toString());
-                users.clear();
                 for (DataSnapshot snapshot: dataSnapshot.getChildren()) {
                     User user = snapshot.getValue(User.class);
-
                     if (auth.getUid().equals(snapshot.getKey())) {
-                        nomeEnviou = user.getUname();
-                    }
-
-                    if (!auth.getUid().equals(snapshot.getKey())) {
-
-                        user.setUid(snapshot.getKey());
-                        Log.d("snapshot", user.toString());
-                        users.add(user);
+                       userLogado = user;
                     }
                 }
-                adapterUser = new AdapterUser(getApplicationContext(), users);
-                listView.setAdapter(adapterUser);
             }
-
             @Override
             public void onCancelled(@NonNull DatabaseError databaseError) {
                 System.out.println("databaseError "+databaseError.getMessage());
