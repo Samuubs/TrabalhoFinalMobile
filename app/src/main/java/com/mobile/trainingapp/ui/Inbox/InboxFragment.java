@@ -25,6 +25,7 @@ import com.google.firebase.database.ValueEventListener;
 import com.mobile.trainingapp.ChronometerActivity;
 import com.mobile.trainingapp.Mock;
 import com.mobile.trainingapp.R;
+import com.mobile.trainingapp.TrainingActivity;
 import com.mobile.trainingapp.adapter.AdapterMessage;
 import com.mobile.trainingapp.adapter.AdapterWorkout;
 import com.mobile.trainingapp.model.Message;
@@ -59,8 +60,7 @@ public class InboxFragment extends Fragment {
         listViewMessages.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> adapterView, View view, int position, long l) {
-                Intent intent = new Intent(root.getContext(), ChronometerActivity.class);
-                startActivity(intent);
+                goToWorkout(messages.get(position).getWorkout());
             }
         });
 
@@ -69,6 +69,24 @@ public class InboxFragment extends Fragment {
         readMessages();
 
         return root;
+    }
+
+    public void goToWorkout(String workout) {
+        DatabaseReference reference = FirebaseDatabase.getInstance().getReference("treinos/" + workout);
+        reference.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                Workout workout = dataSnapshot.getValue(Workout.class);
+                Intent intent = new Intent(getContext(), TrainingActivity.class);
+                intent.putExtra("workout", workout);
+                startActivity(intent);
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError databaseError) {
+                System.out.println("databaseError "+databaseError.getMessage());
+            }
+        });
     }
 
     private void readMessages() {
@@ -87,9 +105,10 @@ public class InboxFragment extends Fragment {
                     if (message.getUidRecebeu().equals(auth.getUid())) messages.add(message);
                 }
 
-                adapterMessage = new AdapterMessage(getContext(), messages);
-                listViewMessages.setAdapter(adapterMessage);
-
+                if (getActivity() != null) {
+                    adapterMessage = new AdapterMessage(getContext(), messages);
+                    listViewMessages.setAdapter(adapterMessage);
+                }
             }
 
             @Override

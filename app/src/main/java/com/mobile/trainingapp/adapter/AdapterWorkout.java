@@ -38,7 +38,7 @@ public class AdapterWorkout extends  RecyclerView.Adapter<AdapterWorkout.ViewHol
     @Override
     public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
         final Workout workout = mWorkouts.get(position);
-        holder.username.setText(workout.getTid());
+        holder.username.setText("Treino de " + workout.getTid());
         /*
         holder.itemView.setOnClickListener(new View.OnClickListener() {
             @Override

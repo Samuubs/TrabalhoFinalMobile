@@ -63,6 +63,7 @@ public class TrainingActivity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 Intent intent = new Intent(TrainingActivity.this, ChronometerActivity.class);
+                intent.putExtra("workout", (Serializable) workout);
                 startActivity(intent);
             }
         });

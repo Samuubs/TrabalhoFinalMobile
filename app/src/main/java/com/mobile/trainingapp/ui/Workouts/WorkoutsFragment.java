@@ -121,17 +121,13 @@ public class WorkoutsFragment extends Fragment {
                     mWorkouts.add(workout);
                 }
 
-
-
                 adapterWorkout = new AdapterWorkout(getContext(), mWorkouts);
                 recyclerView.setAdapter(adapterWorkout);
-
             }
 
             @Override
             public void onCancelled(@NonNull DatabaseError databaseError) {
                 System.out.println("databaseError "+databaseError.getMessage());
-
             }
         });
     }
