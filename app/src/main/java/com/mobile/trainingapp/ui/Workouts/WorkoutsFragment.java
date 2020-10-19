@@ -7,12 +7,8 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
-import android.widget.ArrayAdapter;
-import android.widget.Button;
 import android.widget.ImageButton;
-import android.widget.ListView;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -21,28 +17,20 @@ import androidx.lifecycle.ViewModelProviders;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.google.firebase.auth.FirebaseAuth;
-import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
-import com.mobile.trainingapp.Mock;
 import com.mobile.trainingapp.R;
 import com.mobile.trainingapp.RunningActivity;
 import com.mobile.trainingapp.TrainingActivity;
 import com.mobile.trainingapp.adapter.AdapterWorkout;
-import com.mobile.trainingapp.model.Exercice;
-import com.mobile.trainingapp.model.User;
 import com.mobile.trainingapp.model.Workout;
 import com.mobile.trainingapp.utils.RecyclerItemClickListener;
 
-import java.io.Serializable;
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Objects;
 
 public class WorkoutsFragment extends Fragment {
 

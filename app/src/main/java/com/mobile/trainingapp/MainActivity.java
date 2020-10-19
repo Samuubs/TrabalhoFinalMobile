@@ -5,11 +5,19 @@ import android.os.Bundle;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
+import android.widget.TextView;
 
 import com.google.android.material.navigation.NavigationView;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
 import com.mobile.trainingapp.model.Exercice;
+import com.mobile.trainingapp.model.User;
 import com.mobile.trainingapp.model.Workout;
 
 import androidx.annotation.NonNull;
@@ -28,6 +36,9 @@ import java.util.List;
 public class MainActivity extends AppCompatActivity {
 
     private AppBarConfiguration mAppBarConfiguration;
+    private TextView textViewNome;
+    private TextView textViewEmail;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -37,15 +48,32 @@ public class MainActivity extends AppCompatActivity {
         setSupportActionBar(toolbar);
         DrawerLayout drawer = findViewById(R.id.drawer_layout);
         NavigationView navigationView = findViewById(R.id.nav_view);
+
+        View headerView = navigationView.getHeaderView(0);
+
+        textViewNome = headerView.findViewById(R.id.textULogado);
+        textViewEmail = headerView.findViewById(R.id.textUELogado);
+
+        FirebaseUser userLogado = FirebaseAuth.getInstance().getCurrentUser();
+        if (userLogado != null ) {
+            String nome = userLogado.getDisplayName();
+            String email = userLogado.getEmail();
+
+            textViewNome.setText(nome);
+            textViewEmail.setText(email);
+        }
+
         // Passing each menu ID as a set of Ids because each
         // menu should be considered as top level destinations.
         mAppBarConfiguration = new AppBarConfiguration.Builder(
-                R.id.nav_treinos, R.id.nav_amigos,  R.id.nav_inbox)
+                R.id.nav_header, R.id.nav_treinos, R.id.nav_amigos,  R.id.nav_inbox)
                 .setDrawerLayout(drawer)
                 .build();
+
         NavController navController = Navigation.findNavController(this, R.id.nav_host_fragment);
         NavigationUI.setupActionBarWithNavController(this, navController, mAppBarConfiguration);
         NavigationUI.setupWithNavController(navigationView, navController);
+
     }
 
     @Override

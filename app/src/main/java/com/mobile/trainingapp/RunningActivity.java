@@ -71,7 +71,6 @@ public class RunningActivity extends FragmentActivity implements OnMapReadyCallb
         mMap = googleMap;
 
         locationManager = (LocationManager) this.getSystemService(Context.LOCATION_SERVICE);
-
         locationListener = new LocationListener() {
             @Override
             public void onLocationChanged(Location location) {
@@ -88,7 +87,7 @@ public class RunningActivity extends FragmentActivity implements OnMapReadyCallb
                         mMap.clear();
                         LatLng localUser = new LatLng(latitude, longitude);
                         mMap.addMarker(new MarkerOptions().position(localUser).title(endereco.getAddressLine(0)));
-                        mMap.moveCamera(CameraUpdateFactory.newLatLng(localUser));
+                        mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(localUser, 15));
                     }
                 } catch (IOException e) {
                     e.printStackTrace();
